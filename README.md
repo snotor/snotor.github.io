@@ -21,7 +21,7 @@ The firmware and controller software are maintained in a separate private reposi
 ## Device
 
 <p align="center">
-  <img src="images/light controler.jpg" width="45%">
+  <img src="images/light controller.jpg" width="45%">
   <img src="images/light controller inside.jpg" width="45%">
 </p>
 
