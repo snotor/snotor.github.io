@@ -29,12 +29,6 @@ The firmware and source code are maintained in a separate private repository.
 
 ---
 
-## Updating
-
-Edit `index.html` directly on GitHub or clone, edit locally, and push. GitHub Pages deploys automatically within a minute.
-
----
-
 ## Contact
 
 **Nyul Balázs** — Technical lead
