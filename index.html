@@ -191,6 +191,42 @@
     margin: 0 24px;
   }
 
+  /* ── Accordion ── */
+  .accordion { display: flex; flex-direction: column; gap: 10px; }
+  .acc-item {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+  .acc-head {
+    list-style: none; padding: 18px 20px;
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    user-select: none; -webkit-user-select: none;
+  }
+  .acc-head::-webkit-details-marker { display: none; }
+  .acc-head::after {
+    content: "+"; font-size: 20px; font-weight: 400;
+    color: var(--accent); line-height: 1; flex: none;
+    transition: transform 0.2s;
+  }
+  details[open] .acc-head::after { content: "−"; }
+  .acc-body { padding: 0 20px 20px; display: flex; flex-direction: column; gap: 16px; border-top: 1px solid var(--border); padding-top: 16px; }
+  .acc-block { display: flex; flex-direction: column; gap: 6px; }
+  .acc-label { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+  .acc-body p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+  .acc-body strong { color: var(--text); }
+  .acc-body a { color: var(--accent); }
+  .acc-list { font-size: 14px; color: var(--muted); line-height: 1.65; padding-left: 18px; display: flex; flex-direction: column; gap: 5px; }
+  .acc-list strong { color: var(--text); }
+
+  /* ── DMX table ── */
+  .dmx-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 4px; }
+  .dmx-table th { text-align: left; padding: 8px 12px; background: var(--bg); color: var(--muted); font-weight: 600; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+  .dmx-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+  .dmx-table tr:last-child td { border-bottom: none; }
+
   /* ── Contact ── */
   .contact-cards {
     display: grid; gap: 14px;
@@ -230,6 +266,10 @@
   }
   footer strong { color: var(--text); }
   .cross { color: var(--accent); font-weight: 700; }
+  @keyframes pulse { 0%,100%{opacity:0.2} 50%{opacity:0.9} }
+  @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0.1} }
+  @keyframes pulse { 0%,100%{opacity:0.2} 50%{opacity:0.9} }
+  @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0.1} }
 </style>
 </head>
 <body>
@@ -334,7 +374,7 @@
   <div class="about-grid">
     <div class="about-text">
       <p>Az ilyen színpadi LED-lámpák vezérléséhez hagyományosan professzionális DMX keverőpultra lenne szükség — ezek drágák, bonyolultak, és speciális szaktudást igényelnek. A Light Controller ezt váltja ki: egy egyedi fejlesztésű okoseszköz, amellyel bárki vezérelheti a fényeket, egyszerűen, okostelefonról.</p>
-      <p>A rendszer ESP32-S3 mikrovezérlőre épül, és DMX512 protokollon keresztül kommunikál a lámpatestekkel. Egyszerre több telefon is csatlakozhat — valós időben látják egymás beállításait.</p>
+      <p>A rendszer ESP32-S3 mikrovezérlőre épül, és DMX512 protokollon keresztül kommunikál a lámpatestekkel. Egyszerre több telefon is csatlakozhat — <strong>élő WebSocket kapcsolaton</strong> szinkronizálnak valós időben. A rendszer a gyülekezet helyi Wi-Fi hálózatán fut, internetkapcsolat nélkül is működik, és kívülről nem érhető el.</p>
     </div>
     <div class="about-photo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
@@ -342,24 +382,12 @@
     </div>
   </div>
 
-  <div class="fixtures">
-    <div class="fixture">
-      <div class="fixture-count">4×</div>
-      <div class="fixture-name">Wall Wash LED-sor</div>
-      <div class="fixture-sub">Fal mosó, 16 pixeles RGBW</div>
-    </div>
-    <div class="fixture">
-      <div class="fixture-count">4×</div>
-      <div class="fixture-name">Színes spotlámpa</div>
-      <div class="fixture-sub">RootPar RGBWA+UV</div>
-    </div>
-  </div>
 
   <!-- Power callout -->
   <div class="nfc-callout" style="margin-top: 24px; background: rgba(255,176,32,0.07); border-color: rgba(255,176,32,0.25);">
     <svg viewBox="0 0 24 24" fill="none" stroke="#ffb020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;width:28px;height:28px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"/></svg>
     <div>
-      <p style="color:#0b0d12;">A lámpatest áramkörét egy <strong>Google Home okos konnektor</strong> táplálja. Ha a lámpák kijelzőjén nem szerepel a <strong>„DMX"</strong> felirat, a lámpatesteket be kell kapcsolni — értesítse Rapai Zsoltot.</p>
+      <p style="color:#0b0d12;">A lámpatest áramkörét egy <strong>GHome okos konnektor</strong> táplálja. Ha a lámpák kijelzőjén nem szerepel a <strong>„DMX"</strong> felirat, a lámpatest nem kap áramot, be kell kapcsolni — értesítse Rapai Zsoltot.</p>
     </div>
   </div>
 
@@ -367,6 +395,198 @@
   <div class="nfc-callout" style="margin-top: 12px;">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;width:28px;height:28px;"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
     <p>Ez a rendszer jelenleg <strong>béta tesztelési fázisban</strong> van — az első valós telepítés. A vezérlő beépített <a href="http://lights.local/logs" class="nfc-url">napló</a> és <a href="http://lights.local/health" class="nfc-url">állapotmonitor</a> oldallal rendelkezik a stabilitás figyeléséhez. Esetleges problémát jelezze Nyul Balázsnak.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Detailed documentation -->
+<section class="section">
+  <p class="section-label">Részletek</p>
+  <h2 class="section-title">Minden, amit tudni kell</h2>
+
+  <div class="accordion">
+
+    <!-- Használat -->
+    <details class="acc-item">
+      <summary class="acc-head">Használat</summary>
+      <div class="acc-body">
+        <div class="acc-block">
+          <p class="acc-label">Jelenet mentése</p>
+          <p>Állítsa be a kívánt fényállapotot, majd <strong>tartsa lenyomva</strong> a jelenet gombját (Band, Speech vagy Video). Erősítse meg, és a jelenet eltárolja a beállításokat. A mentett jelenetek újraindítás után is megmaradnak — a vezérlő saját memóriájában tárolódnak.</p>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">Beállítás kikapcsolt állapotban</p>
+          <p>Kikapcsolt állapotban is megadható a kívánt szín és fényerő — bekapcsoláskor azonnal a beállított értékkel gyúlnak fel a fények. Ez lehetővé teszi az előre pozicionálást, hogy egy érintéssel pontosan a kívánt hatás jelenjen meg.</p>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">Fényerő 0%-on bekapcsoláskor</p>
+          <p>Ha a fényerőcsúszka 0%-on van és bekapcsolja a lámpákat, a rendszer automatikusan <strong>80%-ra</strong> emeli a fényerőt — hogy ne maradjanak véletlenül láthatatlanul bekapcsolt állapotban.</p>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">FX effektek</p>
+          <p>Hat effekt érhető el mindkét lámpatípusnál — párban működnek, a wall wash és a spotok hangulata össze van hangolva:</p>
+          <ul class="acc-list">
+            <li><strong>Hullám</strong> — kék szinuszhullám gördül a fal mosokon, a spotok kék árnyalatban pulzálnak</li>
+            <li><strong>Szivárvány</strong> — a teljes színspektrum lassan végiggördül a fényeken</li>
+            <li><strong>Aurora</strong> — északi fény hatás, zöld-cián fényzónák lassú, organikus mozgással</li>
+            <li><strong>Naplement</strong> — szimmetrikus meleg fan, középen sárga-narancs, széleken mélyvörös; enyhe „szellő" effekttel</li>
+            <li><strong>Party</strong> — váltakozó pixel mintázatok a fal mosokon, gyors színváltás a spoton</li>
+            <li><strong>Hangvezérelt</strong> — a lámpatest beépített mikrofonja vezérli a fényeket a zene ütemére</li>
+          </ul>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">Egyéni szín (színkör)</p>
+          <p>A jobb oldali szivárvány mintájú gomb az egyénileg beállított színt tárolja. <strong>Tartsa lenyomva</strong> a színkör megnyitásához, állítsa be az árnyalatot, majd nyomja meg a <strong>Szín megtartása</strong> gombot a mentéshez.</p>
+        </div>
+      </div>
+    </details>
+
+    <!-- Hálózat -->
+    <details class="acc-item">
+      <summary class="acc-head">Hálózat és csatlakozás</summary>
+      <div class="acc-body">
+        <div class="acc-block">
+          <p class="acc-label">Ha a lights.local nem nyílik meg</p>
+          <ul class="acc-list">
+            <li>Győződjön meg róla, hogy a telefon a Szegletház Wi-Fi-re csatlakozik</li>
+            <li>Írja be pontosan: <a href="http://lights.local" class="nfc-url">lights.local</a> — az <strong>http://</strong> előtaggal (Safari néha HTTPS-t próbál először, ami 5 másodperces késést okozhat)</li>
+            <li>Gyorsabb betöltéshez közvetlenül az <strong>IP-cím</strong> is megadható — ez az állapotoldalon (<a href="http://lights.local/health" class="nfc-url">lights.local/health</a>) látható. Megjegyzés: az IP változhat újraindítás után.</li>
+          </ul>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">Wi-Fi újrakonfigurálása</p>
+          <p>Ha megváltozik a hálózat neve vagy jelszava, a vezérlő <strong>30 másodperc</strong> sikertelen kapcsolódási kísérlet után beállítási módba lép — a kék LED villogni kezd. Ilyenkor csatlakozzon a <strong>LightController</strong> Wi-Fi hálózathoz és konfigurálja újra az adatokat.</p>
+          <p style="margin-top:8px;">A beállítási módot <strong>kézzel is aktiválhatja</strong>: tartsa lenyomva a fizikai gombot, miközben bedugja a vezérlőt.</p>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">Egyidejű felhasználók és biztonság</p>
+          <p>Egyszerre legfeljebb <strong>3 telefon</strong> csatlakozhat. Az alkalmazás élő WebSocket kapcsolaton keresztül szinkronizál — ha valaki változtat, az összes képernyőn azonnal frissül. A rendszer a gyülekezet saját Wi-Fi hálózatán fut, kívülről nem érhető el.</p>
+        </div>
+      </div>
+    </details>
+
+    <!-- Hardver -->
+    <details class="acc-item">
+      <summary class="acc-head">Hardver</summary>
+      <div class="acc-body">
+        <div class="acc-block">
+          <p class="acc-label">Indulási idő</p>
+          <p>A vezérlő bedugása után <strong>néhány másodpercen belül</strong> csatlakozik a Wi-Fi-re és válik elérhetővé az alkalmazás.</p>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">DMX kábel</p>
+          <p>A vezérlő alján lévő <strong>XLR kábel</strong> köti össze a vezérlőt a lámpatestekkel DMX512 protokollon. Üzem közben ne húzza ki — a fények azonnal elveszítik a vezérlést, bár kárt nem okoz.</p>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">LED jelzőfények a vezérlőn</p>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:4px;">
+            <div style="display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid var(--border);">
+              <div style="display:flex;gap:6px;flex:none;"><span style="width:10px;height:10px;border-radius:50%;background:#4f8fff;animation:pulse 1.5s ease-in-out infinite;"></span><span style="width:10px;height:10px;border-radius:50%;background:#888;opacity:0.15;"></span></div>
+              <span style="font-size:13px;color:var(--text);">Kék pulzál — Wi-Fi csatlakozás folyamatban</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid var(--border);">
+              <div style="display:flex;gap:6px;flex:none;"><span style="width:10px;height:10px;border-radius:50%;background:#4f8fff;"></span><span style="width:10px;height:10px;border-radius:50%;background:#888;opacity:0.15;"></span></div>
+              <span style="font-size:13px;color:var(--text);">Kék, zöld ki — online, az app nincs megnyitva</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid var(--border);">
+              <div style="display:flex;gap:6px;flex:none;"><span style="width:10px;height:10px;border-radius:50%;background:#4f8fff;"></span><span style="width:10px;height:10px;border-radius:50%;background:#22cc66;"></span></div>
+              <span style="font-size:13px;color:var(--text);">Kék + zöld — valaki éppen az appot használja</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;padding:11px 16px;">
+              <div style="display:flex;gap:6px;flex:none;"><span style="width:10px;height:10px;border-radius:50%;background:#4f8fff;animation:blink 0.7s step-start infinite;"></span><span style="width:10px;height:10px;border-radius:50%;background:#888;opacity:0.15;"></span></div>
+              <span style="font-size:13px;color:var(--text);">Kék villog — beállítási mód, csatlakozz a <strong>LightController</strong> Wi-Fi-hez</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Hibaelhárítás -->
+    <details class="acc-item">
+      <summary class="acc-head">Hibaelhárítás</summary>
+      <div class="acc-body">
+        <div class="acc-block">
+          <p class="acc-label">A lámpák nem reagálnak</p>
+          <p>Ellenőrizze, hogy a lámpatesteken megjelenik-e a <strong>„DMX"</strong> felirat. Ha nem, a lámpatest áramkör nincs bekapcsolva — értesítse Rapai Zsoltot az okos konnektor bekapcsolásához.</p>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">Az app megnyílik, de a fények nem gyulladnak fel</p>
+          <p>Ellenőrizze az <strong>on/off kapcsolót</strong> és a <strong>fényerőcsúszkát</strong> az alkalmazásban. Ha mindkettő rendben van, ellenőrizze a DMX feliratot a lámpatesteken.</p>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">Nem tud csatlakozni az alkalmazáshoz</p>
+          <p>Ellenőrizze, hogy a telefon a gyülekezet Wi-Fi-jén van. Próbálja meg az <strong>http://</strong> előtaggal: <a href="http://lights.local" class="nfc-url">lights.local</a>. Ha a vezérlő LED-je nem kék, az eszköz még indul vagy elveszítette a Wi-Fi kapcsolatot.</p>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">Valami nem úgy viselkedik, ahogy kellene</p>
+          <p>Ellenőrizze az <a href="http://lights.local/health" class="nfc-url">állapotoldalt</a> és a <a href="http://lights.local/logs" class="nfc-url">naplót</a>, majd értesítse <strong>Nyul Balázst</strong>.</p>
+        </div>
+      </div>
+    </details>
+
+    <!-- Visszaállítás -->
+    <details class="acc-item">
+      <summary class="acc-head">Gyári visszaállítás</summary>
+      <div class="acc-body">
+        <div class="acc-block">
+          <p class="acc-label">Mit töröl a visszaállítás?</p>
+          <p>A <strong>visszaállítás törli</strong> az összes mentett jelenetet és az egyéni színmakrókat (visszaáll az alapértelmezett lila színre).</p>
+          <p style="margin-top:8px;">A <strong>visszaállítás NEM törli</strong> a Wi-Fi beállításokat — a vezérlő a visszaállítás után is csatlakozik a hálózathoz.</p>
+        </div>
+        <div class="acc-block" style="background:rgba(255,80,80,0.05);border:1px solid rgba(255,80,80,0.15);border-radius:10px;padding:12px 14px;">
+          <p class="acc-label" style="color:#cc3333;">Figyelmeztetés</p>
+          <p>A visszaállítás <strong>nem vonható vissza</strong>. Minden mentett jelenet véglegesen törlődik.</p>
+        </div>
+      </div>
+    </details>
+
+    <!-- Szakembereknek -->
+    <details class="acc-item">
+      <summary class="acc-head">Szakembereknek — DMX konfiguráció</summary>
+      <div class="acc-body">
+        <div class="acc-block">
+          <p class="acc-label">Lámpamodellek</p>
+          <table class="dmx-table">
+            <thead><tr><th>Típus</th><th>Modell</th><th>Csatornaszám</th></tr></thead>
+            <tbody>
+              <tr><td>Derítő (első fények)</td><td><a href="https://www.thomann.de/hu/stairville_octagon_theater_mkii_cw_ww_3w.htm" target="_blank" style="color:var(--accent);">Stairville Octagon Theater MkII</a></td><td>5 ch</td></tr>
+              <tr><td>Falvilágítás</td><td><a href="https://www.steinigke.de/en/mpn51930356-eurolite-led-pix-16-qcl-bar.html" target="_blank" style="color:var(--accent);">Eurolite LED PIX-16 QCL Bar</a></td><td>21 ch</td></tr>
+              <tr><td>Színes spotlámpa</td><td><a href="https://www.cameolight.com/en/solutions/dj-musicians/static-lighting/blacklights/20729/root-par-6" target="_blank" style="color:var(--accent);">Cameo ROOT® PAR 6</a></td><td>11 ch</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">DMX univerzum — cím táblázat</p>
+          <table class="dmx-table">
+            <thead><tr><th>Eszköz</th><th>DMX cím</th></tr></thead>
+            <tbody>
+              <tr><td>Derítő 1</td><td>1</td></tr>
+              <tr><td>Derítő 2</td><td>6</td></tr>
+              <tr><td>Derítő 3</td><td>11</td></tr>
+              <tr><td>Derítő 4</td><td>16</td></tr>
+              <tr><td>Spotlámpa 1</td><td>21</td></tr>
+              <tr><td>Spotlámpa 2</td><td>33</td></tr>
+              <tr><td>Spotlámpa 3</td><td>45</td></tr>
+              <tr><td>Spotlámpa 4</td><td>57</td></tr>
+              <tr><td>Falvilágítás 1</td><td>69</td></tr>
+              <tr><td>Falvilágítás 2</td><td>90</td></tr>
+              <tr><td>Falvilágítás 3</td><td>111</td></tr>
+              <tr><td>Falvilágítás 4</td><td>132</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">Gamma korrekció</p>
+          <p>Az emberi szem logaritmikusan érzékeli a fényerőt, ezért a nyers lineáris DMX értékek (0–255) nem egyenletes fényerőlépéseket eredményeznek. A vezérlő lámpatípusonként külön <strong>gamma lookup table-t</strong> (γ ≈ 2.2) alkalmaz, amely előre kiszámítva tárolja a korrigált értékeket a valós idejű számítás elkerülése érdekében.</p>
+        </div>
+        <div class="acc-block">
+          <p class="acc-label">Fehéregyensúly (White Balance)</p>
+          <p>Különböző LED chipek eltérő spektrumot bocsátanak ki, ezért az R=G=B=255 érték sem feltétlenül eredményez fehér fényt. A rendszer lámpatípusonként <strong>csatornánkénti szorzókat</strong> alkalmaz (WB konstansok), amelyeket a gamma korrekció után számít rá az értékekre a pontos fehér reprodukció érdekében. A wall wash és a spotlámpák külön WB profillal rendelkeznek.</p>
+        </div>
+      </div>
+    </details>
+
   </div>
 </section>
 
