@@ -373,8 +373,8 @@
 
   <div class="about-grid">
     <div class="about-text">
-      <p>Az ilyen színpadi LED-lámpák vezérléséhez hagyományosan professzionális DMX keverőpultra lenne szükség — ezek drágák, bonyolultak, és speciális szaktudást igényelnek. A Light Controller ezt váltja ki: egy egyedi fejlesztésű okoseszköz, amellyel bárki vezérelheti a fényeket, egyszerűen, okostelefonról.</p>
-      <p>A rendszer ESP32-S3 mikrovezérlőre épül, és DMX512 protokollon keresztül kommunikál a lámpatestekkel. Egyszerre több telefon is csatlakozhat — <strong>élő WebSocket kapcsolaton</strong> szinkronizálnak valós időben. A rendszer a szegletház helyi Wi-Fi hálózatán fut, internetkapcsolat nélkül is működik, és kívülről nem érhető el.</p>
+      <p>Az ilyen színpadi LED-lámpák vezérléséhez hagyományosan professzionális DMX vezérlőpultra lenne szükség — ezek drágák, bonyolultak, és speciális szaktudást igényelnek. A Light Controller ezt váltja ki: egy egyedi fejlesztésű okoseszköz, amellyel bárki vezérelheti a fényeket, egyszerűen, okostelefonról.</p>
+      <p>A rendszer ESP32-S3 mikrovezérlőre épül, és DMX512 protokollon keresztül kommunikál a lámpatestekkel. Egyszerre több telefon is csatlakozhat — élő WebSocket kapcsolaton szinkronizálnak valós időben. A rendszer a szegletház helyi Wi-Fi hálózatán fut, internetkapcsolat nélkül is működik, és kívülről nem érhető el.</p>
     </div>
     <div class="about-photo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
@@ -416,12 +416,8 @@
           <p>Állítsa be a kívánt fényállapotot, majd <strong>tartsa lenyomva</strong> a jelenet gombját (Band, Speech vagy Video). Erősítse meg, és a jelenet eltárolja a beállításokat. A mentett jelenetek újraindítás után is megmaradnak — a vezérlő saját memóriájában tárolódnak.</p>
         </div>
         <div class="acc-block">
-          <p class="acc-label">Beállítás kikapcsolt állapotban</p>
-          <p>Kikapcsolt állapotban is megadható a kívánt szín és fényerő — bekapcsoláskor azonnal a beállított értékkel gyúlnak fel a fények. Ez lehetővé teszi az előre pozicionálást, hogy egy érintéssel pontosan a kívánt hatás jelenjen meg.</p>
-        </div>
-        <div class="acc-block">
-          <p class="acc-label">Fényerő 0%-on bekapcsoláskor</p>
-          <p>Ha a fényerőcsúszka 0%-on van és bekapcsolja a lámpákat, a rendszer automatikusan <strong>80%-ra</strong> emeli a fényerőt — hogy ne maradjanak véletlenül láthatatlanul bekapcsolt állapotban.</p>
+          <p class="acc-label">Beállítás a kártya kikapcsolt állapotában</p>
+          <p>A lámpáknak kikapcsolt állapotban is megadható a kívánt szín és fényerő — bekapcsoláskor azonnal a beállított értékkel gyúlnak fel a fények. Ez lehetővé teszi az előre pozicionálást, hogy egy érintéssel pontosan a kívánt hatás jelenjen meg.</p>
         </div>
         <div class="acc-block">
           <p class="acc-label">FX effektek</p>
@@ -429,8 +425,8 @@
           <ul class="acc-list">
             <li><strong>Hullám</strong> — kék szinuszhullám gördül a fal mosokon, a spotok kék árnyalatban pulzálnak</li>
             <li><strong>Szivárvány</strong> — a teljes színspektrum lassan végiggördül a fényeken</li>
-            <li><strong>Aurora</strong> — északi fény hatás, zöld-cián fényzónák lassú, organikus mozgással</li>
-            <li><strong>Naplement</strong> — szimmetrikus meleg fan, középen sárga-narancs, széleken mélyvörös; enyhe „szellő" effekttel</li>
+            <li><strong>Nyugodt</strong> — északi fény hatás, zöld-cián fényzónák lassú, organikus mozgással</li>
+            <li><strong>Naplemente</strong> — szimmetrikus meleg fan, középen sárga-narancs, széleken mélyvörös; enyhe „szellő" effekttel</li>
             <li><strong>Party</strong> — váltakozó pixel mintázatok a fal mosokon, gyors színváltás a spoton</li>
             <li><strong>Hangvezérelt</strong> — a lámpatest beépített mikrofonja vezérli a fényeket a zene ütemére</li>
           </ul>
@@ -450,18 +446,18 @@
           <p class="acc-label">Ha a lights.local nem nyílik meg</p>
           <ul class="acc-list">
             <li>Győződjön meg róla, hogy a telefon a Szegletház Wi-Fi-re csatlakozik</li>
-            <li>Írja be pontosan: <a href="http://lights.local" class="nfc-url">lights.local</a> — az <strong>http://</strong> előtaggal (Safari néha HTTPS-t próbál először, ami 5 másodperces késést okozhat)</li>
+            <li>Írja be pontosan: <a href="http://lights.local" class="nfc-url">lights.local</a> — az <strong>http://</strong> előtaggal</li>
             <li>Gyorsabb betöltéshez közvetlenül az <strong>IP-cím</strong> is megadható — ez az állapotoldalon (<a href="http://lights.local/health" class="nfc-url">lights.local/health</a>) látható. Megjegyzés: az IP változhat újraindítás után.</li>
           </ul>
         </div>
         <div class="acc-block">
           <p class="acc-label">Wi-Fi újrakonfigurálása</p>
-          <p>Ha megváltozik a hálózat neve vagy jelszava, a vezérlő <strong>30 másodperc</strong> sikertelen kapcsolódási kísérlet után beállítási módba lép — a kék LED villogni kezd. Ilyenkor csatlakozzon a <strong>LightController</strong> Wi-Fi hálózathoz és konfigurálja újra az adatokat.</p>
+          <p>Ha megváltozik a hálózat neve vagy jelszava, a vezérlő <strong>30 másodperc</strong> sikertelen kapcsolódási kísérlet után beállítási módba lép — a kék LED villogni kezd. Ilyenkor csatlakozzon a <strong>LightController</strong> Wi-Fi hálózathoz és konfigurálja újra az adatokat a <a href="http://lights.local/" class="nfc-url">lights.local/</a> vagy a <a href="http://192.168.4.1" class="nfc-url">192.168.4.1</a> oldalon.</p>
           <p style="margin-top:8px;">A beállítási módot <strong>kézzel is aktiválhatja</strong>: tartsa lenyomva a fizikai gombot, miközben bedugja a vezérlőt.</p>
         </div>
         <div class="acc-block">
           <p class="acc-label">Egyidejű felhasználók és biztonság</p>
-          <p>Egyszerre legfeljebb <strong>3 telefon</strong> csatlakozhat. Az alkalmazás élő WebSocket kapcsolaton keresztül szinkronizál — ha valaki változtat, az összes képernyőn azonnal frissül. A rendszer a szegletház saját Wi-Fi hálózatán fut, kívülről nem érhető el.</p>
+          <p>Egyszerre legfeljebb <strong>3 eszköz</strong> tud csatlakozni. Az alkalmazás élő WebSocket kapcsolaton keresztül szinkronizál — ha valaki változtat, az összes képernyőn azonnal frissül. A rendszer a szegletház saját Wi-Fi hálózatán fut, kívülről nem érhető el.</p>
         </div>
       </div>
     </details>
@@ -472,11 +468,11 @@
       <div class="acc-body">
         <div class="acc-block">
           <p class="acc-label">Indulási idő</p>
-          <p>A vezérlő bedugása után <strong>néhány másodpercen belül</strong> csatlakozik a Wi-Fi-re és válik elérhetővé az alkalmazás.</p>
+          <p>A vezérlő bedugása után <strong>néhány másodpercen belül</strong> csatlakozik a Wi-Fi-re és az alkalmazás elérhetővé válik.</p>
         </div>
         <div class="acc-block">
           <p class="acc-label">DMX kábel</p>
-          <p>A vezérlő alján lévő <strong>XLR kábel</strong> köti össze a vezérlőt a lámpatestekkel DMX512 protokollon. Üzem közben ne húzza ki — a fények azonnal elveszítik a vezérlést, bár kárt nem okoz.</p>
+          <p>A vezérlő alján lévő <strong>XLR kábel</strong> köti össze a vezérlőt a lámpatestekkel DMX512 protokollon. Üzem közben ne húzza ki — a fények azonnal elveszítik a vezérlést, kárt nem okoz.</p>
         </div>
         <div class="acc-block">
           <p class="acc-label">LED jelzőfények a vezérlőn</p>
@@ -551,7 +547,7 @@
             <thead><tr><th>Típus</th><th>Modell</th><th>Csatornaszám</th></tr></thead>
             <tbody>
               <tr><td>Derítő (első fények)</td><td><a href="https://www.thomann.de/hu/stairville_octagon_theater_mkii_cw_ww_3w.htm" target="_blank" style="color:var(--accent);">Stairville Octagon Theater MkII</a></td><td>5 ch</td></tr>
-              <tr><td>Falvilágítás</td><td><a href="https://www.steinigke.de/en/mpn51930356-eurolite-led-pix-16-qcl-bar.html" target="_blank" style="color:var(--accent);">Eurolite LED PIX-16 QCL Bar</a></td><td>21 ch</td></tr>
+              <tr><td>Falvilágítás</td><td><a href="https://www.steinigke.de/en/mpn51930356-eurolite-led-pix-16-qcl-bar.html" target="_blank" style="color:var(--accent);">Eurolite LED PIX-16 QCL Bar</a></td><td>21 ch 1</td></tr>
               <tr><td>Színes spotlámpa</td><td><a href="https://www.cameolight.com/en/solutions/dj-musicians/static-lighting/blacklights/20729/root-par-6" target="_blank" style="color:var(--accent);">Cameo ROOT® PAR 6</a></td><td>11 ch</td></tr>
             </tbody>
           </table>
