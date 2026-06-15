@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Szegletházi fénytechnika rendszer — gyors beállítási útmutató">
-<title>Light Controller · Szegletházi fénytechnika</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
+<title>Light Controller · Szegletházi fénytechnika</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -286,7 +286,7 @@
         <div class="step-num">3</div>
         <div class="step-title">Nyissa meg az alkalmazást</div>
       </div>
-      <p class="step-desc">Érintse a telefont a vezérlőn lévő NFC matrica területéhez — az alkalmazás automatikusan megnyílik. Alternatív megoldásként írja be a böngészőbe: <a href="http://lights.local" class="nfc-url">lights.local</a></p>
+      <p class="step-desc">Érintse a telefont a vezérlőn lévő NFC matrica területéhez — az alkalmazás automatikusan megnyílik. Alternatív megoldásként írja be a böngészőbe: <span class="nfc-url">lights.local</span></p>
       <div class="step-photo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2"/></svg>
         <span>Fotó ide</span>
@@ -333,8 +333,8 @@
 
   <div class="about-grid">
     <div class="about-text">
-      <p>A Szegletházi fénytechnika rendszer egy egyedi fejlesztésű vezérlő, amely lehetővé teszi a terembeli LED-lámpák teljes körű vezérlését okostelefonról — egyetlen alkalmazással, kábel és távirányító nélkül.</p>
-      <p>A vezérlő az ESP32 mikroprocesszorra épül, és DMX protokollon keresztül kommunikál a lámpatestekkel. A teremben egyidejűleg több telefon is csatlakozhat, és valós időben látják egymás beállításait.</p>
+      <p>Az ilyen színpadi LED-lámpák vezérléséhez hagyományosan professzionális DMX keverőpultra lenne szükség — ezek drágák, bonyolultak, és speciális szaktudást igényelnek. A Light Controller ezt váltja ki: egy egyedi fejlesztésű okoseszköz, amellyel bárki vezérelheti a fényeket, egyszerűen, okostelefonról.</p>
+      <p>A rendszer ESP32-S3 mikrovezérlőre épül, és DMX512 protokollon keresztül kommunikál a lámpatestekkel. Egyszerre több telefon is csatlakozhat — valós időben látják egymás beállításait.</p>
     </div>
     <div class="about-photo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
@@ -354,6 +354,20 @@
       <div class="fixture-sub">RootPar RGBWA+UV</div>
     </div>
   </div>
+
+  <!-- Power callout -->
+  <div class="nfc-callout" style="margin-top: 24px; background: rgba(255,176,32,0.07); border-color: rgba(255,176,32,0.25);">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#ffb020" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;width:28px;height:28px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"/></svg>
+    <div>
+      <p style="color:#0b0d12;">A lámpatest áramkörét egy <strong>Google Home okos konnektor</strong> táplálja. Ha a lámpák kijelzőjén nem szerepel a <strong>„DMX"</strong> felirat, a lámpatesteket be kell kapcsolni — értesítse Rapai Zsoltot.</p>
+    </div>
+  </div>
+
+  <!-- Beta callout -->
+  <div class="nfc-callout" style="margin-top: 12px;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;width:28px;height:28px;"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    <p>Ez a rendszer jelenleg <strong>béta tesztelési fázisban</strong> van — az első valós telepítés. A vezérlő beépített <a href="http://lights.local/logs" class="nfc-url">napló</a> és <a href="http://lights.local/health" class="nfc-url">állapotmonitor</a> oldallal rendelkezik a stabilitás figyeléséhez. Esetleges problémát jelezze Nyul Balázsnak.</p>
+  </div>
 </section>
 
 <hr class="divider">
@@ -367,13 +381,13 @@
       <div class="contact-avatar">BN</div>
       <div class="contact-name">Nyul Balázs</div>
       <a class="contact-phone" href="tel:+36307863034">+36 30 786 3034</a>
-      <div class="contact-role">Rendszerfejlesztő</div>
+      <div class="contact-role">Technikai szakértő</div>
     </div>
     <div class="contact-card">
       <div class="contact-avatar">ZR</div>
       <div class="contact-name">Rapai Zsolt</div>
       <a class="contact-phone" href="tel:+36702926753">+36 70 292 6753</a>
-      <div class="contact-role">Technikai felelős</div>
+      <div class="contact-role">Bérbeadó · okos konnektor</div>
     </div>
   </div>
 </section>
