@@ -31,4 +31,4 @@ The firmware and source code are maintained in a separate private repository.
 
 ## Contact
 
-**Nyul Balázs** — Technical lead · [nyul.balazs@email.com](mailto:nyulbali@gmail.com)
+**Nyul Balázs** — Technical lead · [nyulbali@gmail.com](mailto:nyulbali@gmail.com)
