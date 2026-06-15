@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Szegletházi fénytechnika rendszer — gyors beállítási útmutató">
+<title>Light Controller · Szegletházi fénytechnika</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent:   #4f8fff;
+    --accent-light: rgba(79,143,255,0.08);
+    --text:     #0b0d12;
+    --muted:    #6b7280;
+    --border:   rgba(0,0,0,0.09);
+    --card:     #ffffff;
+    --bg:       #f4f6f9;
+    --radius:   18px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #f4f6f9;
+    color: var(--text);
+    font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(79,143,255,0.13), transparent);
+  }
+
+  header, section, hr, footer { position: relative; z-index: 1; }
+
+  /* ── Top bar ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(244,246,249,0.88);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .topbar-name {
+    font-size: 15px; font-weight: 700; letter-spacing: 0.02em;
+    color: var(--accent);
+  }
+  .topbar-sub {
+    font-size: 12px; color: var(--muted); font-weight: 500;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 64px 24px 48px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 7vw, 52px);
+    font-weight: 800; letter-spacing: -0.02em;
+    line-height: 1.1; color: var(--text);
+    margin-bottom: 14px;
+  }
+  .hero-sub {
+    font-size: 17px; color: var(--muted);
+    max-width: 480px; margin: 0 auto 36px;
+  }
+
+  /* ── Section ── */
+  .section { padding: 48px 24px; max-width: 720px; margin: 0 auto; }
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 26px; font-weight: 800; letter-spacing: -0.01em;
+    margin-bottom: 32px;
+  }
+
+  /* ── Steps ── */
+  .steps { display: grid; gap: 16px; }
+  @media (min-width: 560px) { .steps { grid-template-columns: 1fr 1fr; } }
+
+  .step-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: flex; flex-direction: column; gap: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .step-header { display: flex; align-items: center; gap: 14px; }
+  .step-num {
+    width: 40px; height: 40px; flex: none;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 800; color: #fff;
+    box-shadow: 0 4px 16px rgba(79,143,255,0.35);
+  }
+  .step-title { font-size: 16px; font-weight: 700; }
+  .step-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .step-photo {
+    background: var(--bg);
+    border: 1.5px dashed rgba(79,143,255,0.25);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 8px;
+    color: rgba(79,143,255,0.45);
+  }
+  .step-photo svg { width: 28px; height: 28px; }
+  .step-photo span { font-size: 12px; font-weight: 500; }
+
+  /* ── NFC callout ── */
+  .nfc-callout {
+    background: var(--accent-light);
+    border: 1px solid rgba(79,143,255,0.18);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 14px;
+    margin-top: 24px;
+  }
+  .nfc-callout svg { flex: none; width: 28px; height: 28px; color: var(--accent); }
+  .nfc-callout p { font-size: 14px; color: var(--text); line-height: 1.5; }
+  .nfc-callout p strong { color: var(--accent); }
+  .nfc-url {
+    display: inline-block;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 13px; font-weight: 600;
+    background: rgba(79,143,255,0.12);
+    color: var(--accent);
+    padding: 2px 8px; border-radius: 6px;
+    margin-top: 4px;
+  }
+
+  /* ── About ── */
+  .about-grid {
+    display: grid; gap: 20px;
+    align-items: start;
+  }
+  @media (min-width: 560px) { .about-grid { grid-template-columns: 1fr 1fr; } }
+
+  .about-text { font-size: 15px; color: var(--muted); line-height: 1.75; }
+  .about-text p + p { margin-top: 12px; }
+  .about-photo {
+    background: var(--card);
+    border: 1.5px dashed rgba(79,143,255,0.25);
+    border-radius: var(--radius);
+    aspect-ratio: 4/3;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 10px;
+    color: rgba(79,143,255,0.4);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .about-photo svg { width: 36px; height: 36px; }
+  .about-photo span { font-size: 13px; font-weight: 500; }
+
+  /* ── Fixtures ── */
+  .fixtures { display: grid; gap: 12px; margin-top: 24px; }
+  @media (min-width: 420px) { .fixtures { grid-template-columns: 1fr 1fr; } }
+  .fixture {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .fixture-count {
+    font-size: 28px; font-weight: 800; color: var(--accent);
+    line-height: 1;
+  }
+  .fixture-name { font-size: 14px; font-weight: 600; margin-top: 4px; }
+  .fixture-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 24px;
+  }
+
+  /* ── Contact ── */
+  .contact-cards {
+    display: grid; gap: 14px;
+  }
+  @media (min-width: 480px) { .contact-cards { grid-template-columns: 1fr 1fr; } }
+  .contact-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .contact-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 15px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+  }
+  .contact-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .contact-phone {
+    font-size: 14px; color: var(--accent);
+    text-decoration: none; font-weight: 500;
+    display: block;
+  }
+  .contact-phone:hover { text-decoration: underline; }
+  .contact-role { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 28px 24px 40px;
+    font-size: 12px; color: var(--muted);
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+  footer strong { color: var(--text); }
+  .cross { color: var(--accent); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<header class="topbar">
+  <div>
+    <div class="topbar-name">Light Controller</div>
+    <div class="topbar-sub">Szegletházi fénytechnika rendszer</div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>Gyors útmutató</h1>
+  <p class="hero-sub">A terembeli fények okostelefonról vezérelhetők — ez az oldal lépésről lépésre végigvezeti az indításon.</p>
+</section>
+
+<hr class="divider">
+
+<!-- Steps -->
+<section class="section">
+  <p class="section-label">Indítás</p>
+  <h2 class="section-title">Négy lépés, és működik</h2>
+
+  <div class="steps">
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div class="step-title">Dugja be a vezérlőt</div>
+      </div>
+      <p class="step-desc">Csatlakoztassa a vezérlő dugót a falban lévő konnektorba. A kék LED lassan villogni kezd — ez azt jelzi, hogy a rendszer csatlakozik a Wi-Fi hálózathoz.</p>
+      <div class="step-photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+        <span>Fotó ide</span>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div class="step-title">Csatlakozzon a Wi-Fi-re</div>
+      </div>
+      <p class="step-desc">Győződjön meg arról, hogy a telefonja a gyülekezet Wi-Fi hálózatára csatlakozik. A vezérlő és a telefon ugyanazon a hálózaton kell, hogy legyenek.</p>
+      <div class="step-photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>
+        <span>Fotó ide</span>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div class="step-title">Nyissa meg az alkalmazást</div>
+      </div>
+      <p class="step-desc">Érintse a telefont a vezérlőn lévő NFC matrica területéhez — az alkalmazás automatikusan megnyílik. Alternatív megoldásként írja be a böngészőbe: <span class="nfc-url">lights.local</span></p>
+      <div class="step-photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2"/></svg>
+        <span>Fotó ide</span>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-num">4</div>
+        <div class="step-title">Vezérelje a fényeket</div>
+      </div>
+      <p class="step-desc">Az alkalmazásban kapcsolja fel a kívánt lámpákat, állítsa be a fényerőt és a hangulatot. Mentett jelenetek is elérhetők a gyors beállításhoz.</p>
+      <div class="step-photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <span>Fotó ide</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- NFC callout -->
+  <div class="nfc-callout">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2C4.34 2 3 3.34 3 5v14c0 1.66 1.34 3 3 3h12c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3H6z"/><path d="M8.5 8.5A5 5 0 0 1 15.5 15.5"/><path d="M10 11a3 3 0 0 1 3 3"/><circle cx="11" cy="15" r="1" fill="currentColor"/></svg>
+    <p>Az eszközön lévő <strong>NFC matrica</strong> érintésekor a telefon automatikusan megnyitja az alkalmazást. Ha ez nem működik, nyissa meg kézzel: <span class="nfc-url">lights.local</span></p>
+  </div>
+
+  <!-- Button callout -->
+  <div class="nfc-callout" style="margin-top: 12px;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+    <p>A vezérlőn lévő <strong>fizikai gomb</strong> megnyomásával telefonos alkalmazás nélkül is lehet jelenetet váltani — egymás után végiglépteti az elmentett jeleneteken.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- About the system -->
+<section class="section">
+  <p class="section-label">A rendszerről</p>
+  <h2 class="section-title">Mi ez és hogyan működik?</h2>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <p>A Szegletházi fénytechnika rendszer egy egyedi fejlesztésű vezérlő, amely lehetővé teszi a terembeli LED-lámpák teljes körű vezérlését okostelefonról — egyetlen alkalmazással, kábel és távirányító nélkül.</p>
+      <p>A vezérlő az ESP32 mikroprocesszorra épül, és DMX protokollon keresztül kommunikál a lámpatestekkel. A teremben egyidejűleg több telefon is csatlakozhat, és valós időben látják egymás beállításait.</p>
+    </div>
+    <div class="about-photo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <span>A vezérlő fotója</span>
+    </div>
+  </div>
+
+  <div class="fixtures">
+    <div class="fixture">
+      <div class="fixture-count">4×</div>
+      <div class="fixture-name">Wall Wash LED-sor</div>
+      <div class="fixture-sub">Fal mosó, 16 pixeles RGBW</div>
+    </div>
+    <div class="fixture">
+      <div class="fixture-count">4×</div>
+      <div class="fixture-name">Színes spotlámpa</div>
+      <div class="fixture-sub">RootPar RGBWA+UV</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- Contact -->
+<section class="section">
+  <p class="section-label">Kapcsolat</p>
+  <h2 class="section-title">Kérdése van?</h2>
+  <div class="contact-cards">
+    <div class="contact-card">
+      <div class="contact-avatar">BN</div>
+      <div class="contact-name">Nyul Balázs</div>
+      <a class="contact-phone" href="tel:+36307863034">+36 30 786 3034</a>
+      <div class="contact-role">Rendszerfejlesztő</div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-avatar">ZR</div>
+      <div class="contact-name">Rapai Zsolt</div>
+      <a class="contact-phone" href="tel:+36702926753">+36 70 292 6753</a>
+      <div class="contact-role">Technikai felelős</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p><span class="cross">✝</span> &nbsp;<strong>Jézus a Király</strong></p>
+  <p style="margin-top: 8px;">Szegletházi fénytechnika rendszer · Light Controller</p>
+</footer>
+
+</body>
+</html>
