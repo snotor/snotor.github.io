@@ -1,34 +1,38 @@
-# Light Controller — Landing Page
+# Light Controller — Szegletház Beta
 
-Public website for the Szegletházi fénytechnika rendszer (Szegletház Lighting System).
+Public landing page and documentation for a custom DMX lighting controller developed for Szegletház.
 
-**Live site:** [snotor.github.io](https://snotor.github.io)
+**Live site:** https://snotor.github.io
 
----
+## About
 
-## What this is
+This project turns a modified wall power adapter into a simple, user-friendly DMX lighting controller.
 
-A single-page Hungarian quick-start guide for the Light Controller — a custom ESP32-S3 DMX lighting controller installed at Szegletház church. The page is linked via a QR code on the physical device and covers:
+Built around an ESP32-S3, the device hosts a local web interface and communicates using WebSockets, allowing lighting scenes to be controlled from any phone, tablet, or computer on the local network—without the complexity of a traditional DMX console.
 
-- Step-by-step setup guide
-- System overview and fixture list
-- Network and hardware reference
-- Troubleshooting
-- DMX universe layout (for specialists)
+This version was developed specifically for the Szegletház lighting installation and serves as a real-world beta test before creating a more versatile and configurable version.
 
-The firmware and source code are maintained in a separate private repository.
+## This Repository
 
----
+This repository contains only the public documentation website linked from the QR code attached to the device.
+
+The firmware and controller software are maintained in a separate private repository.
+
+## Device
+
+<p align="center">
+  <img src="images/light controler.jpg" width="45%">
+  <img src="images/light controller inside.jpg" width="45%">
+</p>
 
 ## Files
 
-| File | Description |
-|------|-------------|
-| `index.html` | The entire site — single self-contained HTML file |
-| `favicon.ico` | Browser tab icon |
-
----
+| File          | Description                       |
+| ------------- | --------------------------------- |
+| `index.html`  | Single-page documentation website |
+| `favicon.ico` | Browser tab icon                  |
 
 ## Contact
 
-**Nyul Balázs** — Technical lead · [nyulbali@gmail.com](mailto:nyulbali@gmail.com)
+**Nyul Balázs**
+[nyulbali@gmail.com](mailto:nyulbali@gmail.com)
