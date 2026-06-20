@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Light Controller — Help</title>
+<style>
+  :root{
+    --accent:#4f8fff; --text:#f0f0f0; --muted:#7a8090;
+    --card:rgba(29,33,42,0.98); --card-border:rgba(255,255,255,0.13);
+    --bar-bg:rgba(11,13,17,0.9); --bg:#0b0d12;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{height:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,'SF Pro Display','Helvetica Neue',sans-serif;
+    line-height:1.6; -webkit-text-size-adjust:100%; min-height:100%;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:radial-gradient(ellipse 80% 60% at 50% -10%, rgba(79,143,255,0.10), transparent);
+  }
+  .topbar{
+    position:sticky; top:0; z-index:10; display:flex; align-items:center;
+    justify-content:space-between; gap:10px; padding:11px 18px;
+    background:var(--bar-bg); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,0.07);
+  }
+  .topbar a.back{
+    display:inline-flex; align-items:center; gap:7px; text-decoration:none;
+    color:var(--accent); font-weight:700; font-size:14px; letter-spacing:.06em;
+  }
+  .topbar a.back svg{display:block}
+  .lang{display:flex; border:1px solid var(--card-border); border-radius:999px; overflow:hidden}
+  .lang button{
+    border:none; background:transparent; color:var(--muted);
+    font:600 12px/1 -apple-system,sans-serif; letter-spacing:.06em;
+    padding:7px 12px; cursor:pointer;
+  }
+  .lang button.active{background:var(--accent); color:#fff}
+  main{position:relative; z-index:1; max-width:560px; margin:0 auto; padding:18px 14px 60px}
+  h1{font-size:22px; font-weight:800; margin:6px 2px 2px; letter-spacing:.01em}
+  .sub{color:var(--muted); font-size:14px; margin:0 2px 18px}
+  .card{
+    background:var(--card); border:1px solid var(--card-border); border-radius:22px;
+    padding:1.3rem 1.4rem; margin-bottom:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.05) inset;
+  }
+  .card h2{font-size:16px; font-weight:700; margin:0 0 10px; display:flex; align-items:center; gap:9px}
+  .card h2 .dot{width:8px; height:8px; border-radius:50%; background:var(--accent); flex:none}
+  .card p{margin:0 0 10px; font-size:14.5px; color:#cfd3da}
+  .card p:last-child{margin-bottom:0}
+  .card ul{margin:0; padding-left:1.1rem}
+  .card li{font-size:14.5px; color:#cfd3da; margin-bottom:7px}
+  .card li:last-child{margin-bottom:0}
+  .card li b, .card p b{color:var(--text); font-weight:600}
+  .tip{
+    margin-top:12px; padding:11px 13px; border-radius:12px;
+    background:rgba(79,143,255,0.10); border:1px solid rgba(79,143,255,0.25);
+    font-size:13.5px; color:#cfdcff;
+  }
+  .contacts a{color:var(--accent); text-decoration:none; font-weight:600}
+  .contact-row{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06)}
+  .contact-row:last-child{border-bottom:none}
+  .contact-row .lbl{color:var(--muted); font-size:13px}
+  .contact-row .name{font-size:14px; font-weight:600; color:var(--text); margin-top:2px}
+  .contact-row .right{text-align:right}
+  .link-btn{
+    display:inline-block; margin-top:8px; padding:10px 14px; border-radius:12px;
+    background:rgba(79,143,255,0.14); border:1px solid rgba(79,143,255,0.4);
+    color:var(--accent); text-decoration:none; font-weight:600; font-size:14px;
+  }
+  .danger h2 .dot{background:#ff5a5a}
+  .danger{border-color:rgba(255,90,90,0.3)}
+  .btn-danger{
+    width:100%; margin-top:6px; padding:13px; border-radius:14px; cursor:pointer;
+    background:rgba(255,90,90,0.12); border:1.5px solid rgba(255,90,90,0.5);
+    color:#ff7a7a; font:700 15px -apple-system,sans-serif;
+  }
+  .btn-danger:active{opacity:.85}
+  .footer{text-align:center; color:var(--muted); font-size:12px; margin-top:22px; line-height:1.7}
+  .footer .jesus{margin-top:8px; font-weight:700; letter-spacing:.06em; color:var(--text)}
+  /* Overlay */
+  .overlay{
+    position:fixed; inset:0; z-index:50; display:none;
+    background:rgba(0,0,0,0.88); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    align-items:center; justify-content:center; padding:2rem;
+  }
+  .overlay.show{display:flex}
+  .ov-panel{display:none; flex-direction:column; align-items:center; gap:18px; width:100%; max-width:300px; text-align:center}
+  .ov-panel.show{display:flex}
+  .ov-panel .big{margin:0; font-size:19px; font-weight:700; color:var(--text)}
+  .ov-panel .small{margin:0; font-size:14px; color:var(--muted); line-height:1.5}
+  .ov-btns{display:flex; gap:10px; width:100%}
+  .ov-btns button{flex:1; padding:13px; border-radius:14px; cursor:pointer; font:600 14px -apple-system,sans-serif}
+  .ov-cancel{background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); color:var(--text)}
+  .ov-confirm{background:rgba(255,90,90,0.15); border:1.5px solid rgba(255,90,90,0.5); color:#ff7a7a; font-weight:700 !important}
+  .spinner{width:42px; height:42px; border-radius:50%; border:3px solid var(--accent); border-top-color:transparent; animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <a class="back" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 L8 12 L15 19"/></svg>
+      <span data-i="back">Controller</span>
+    </a>
+    <div class="lang">
+      <button id="lang-en" onclick="setLang('en')">EN</button>
+      <button id="lang-hu" onclick="setLang('hu')">HU</button>
+    </div>
+  </div>
+
+  <main>
+    <h1 data-i="title">How to use the lights</h1>
+    <p class="sub" data-i="subtitle">A quick guide to the controller.</p>
+
+    <div class="card">
+      <h2><span class="dot"></span><span data-i="s_fixtures_h">The three fixture cards</span></h2>
+      <div data-i="s_fixtures_b"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot"></span><span data-i="s_colors_h">Colors &amp; the color picker</span></h2>
+      <div data-i="s_colors_b"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot"></span><span data-i="s_scenes_h">Scenes</span></h2>
+      <div data-i="s_scenes_b"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot"></span><span data-i="s_save_h">Saving a scene</span></h2>
+      <div data-i="s_save_b"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot"></span><span data-i="s_home_h">Quick access</span></h2>
+      <div data-i="s_home_b"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot"></span><span data-i="s_led_h">LED status lights on the controller</span></h2>
+      <div data-i="s_led_b"></div>
+    </div>
+
+    <div class="card contacts">
+      <h2><span class="dot"></span><span data-i="s_contact_h">Support &amp; rental</span></h2>
+      <div class="contact-row">
+        <div>
+          <div class="lbl" data-i="c_support">Technical support</div>
+          <div class="name" data-i="n_support">Balázs Nyul</div>
+        </div>
+        <div class="right"><a href="tel:+36307863034">+36 30 786 3034</a></div>
+      </div>
+      <div class="contact-row">
+        <div>
+          <div class="lbl" data-i="c_rental">Rental &amp; access</div>
+          <div class="name" data-i="n_rental">Zsolt Rapai</div>
+        </div>
+        <div class="right"><a href="tel:+36702926753">+36 70 292 6753</a></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot"></span><span data-i="s_health_h">System health</span></h2>
+      <div data-i="s_health_b"></div>
+    </div>
+
+    <div class="card danger">
+      <h2><span class="dot"></span><span data-i="s_restore_h">Restore to defaults</span></h2>
+      <div data-i="s_restore_b"></div>
+      <button class="btn-danger" onclick="restore()" data-i="restore_btn">Restore to defaults</button>
+    </div>
+
+    <div class="footer">
+      <div data-i="f_system">Szegletház Lighting System</div>
+      <div data-i="f_owner">Owned and managed by Golgota Kistarcsa</div>
+      <div class="jesus" data-i="f_jesus">✝ Jesus is King</div>
+    </div>
+  </main>
+
+  <div class="overlay" id="overlay" onclick="overlayBgClick(event)">
+    <div class="ov-panel" id="ov-confirm">
+      <p class="big" id="ov-ctitle"></p>
+      <p class="small" id="ov-cmsg"></p>
+      <div class="ov-btns">
+        <button class="ov-cancel" id="ov-cancel-btn" onclick="hideOverlay()">Cancel</button>
+        <button class="ov-confirm" id="ov-ok-btn"     onclick="doRestore()">Restore</button>
+      </div>
+    </div>
+    <div class="ov-panel" id="ov-progress">
+      <div class="spinner" id="ov-spin"></div>
+      <p class="big"   id="ov-big"></p>
+      <p class="small" id="ov-small"></p>
+    </div>
+  </div>
+
+<script>
+var T = {
+  en: {
+    back: "Controller",
+    title: "How to use the stage lights",
+    subtitle: "A quick guide to the controller.",
+
+    s_led_h: "LED status lights on the controller",
+    s_led_b:
+      "<ul style='list-style:none;padding:0;margin:0'>" +
+      "<li style='padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.06)'><b style='color:#4f8fff'>Blue breathing</b> — connecting to Wi-Fi.</li>" +
+      "<li style='padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.06)'><b style='color:#4f8fff'>Blue</b>, green off — online, app not open.</li>" +
+      "<li style='padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.06)'><b style='color:#4f8fff'>Blue</b> + <b style='color:#22cc66'>green</b> — someone is using the app.</li>" +
+      "<li style='padding:6px 0'><b style='color:#4f8fff'>Blue blinking</b> — setup mode, connect to <b>LightController</b> Wi-Fi.</li>" +
+      "</ul>",
+    s_fixtures_h: "The three fixture cards",
+    s_fixtures_b:
+      "<ul>" +
+      "<li><b>Front Lights</b> — the main white lighting. Brightness and color temperature can be adjusted.</li>" +
+      "<li><b>Wall Lights</b> — the colored bar lights that shine down the wall.</li>" +
+      "<li><b>Color Spotlights</b> — the colored spotlights, with separate white, amber and UV channels.</li>" +
+      "</ul>" +
+      "<p>Each card has an <b>on/off switch</b> and a <b>brightness</b> slider. Even when a fixture is off, you can still select its color and brightness in advance, so when you turn it on it immediately comes up with those settings.</p>",
+
+    s_colors_h: "Colors &amp; the color picker",
+    s_colors_b:
+      "<p>On the Wall Lights and Color Spotlights cards, tap a <b>color swatch</b> to select a color. The FX buttons below start animated effects.</p>" +
+      "<p>The <b>rainbow swatch</b> on the right is your custom color. <b>Press and hold</b> it to open the color wheel, choose a shade, then press <b>Keep this color</b> to save it.</p>",
+
+    s_scenes_h: "Scenes",
+    s_scenes_b:
+      "<p>The four buttons along the bottom are <b>scenes</b> — ready-made lighting setups for the room. Tap one to recall it: <b>Band</b>, <b>Speech</b>, <b>Video</b>, or <b>All Off</b>.</p>" +
+      "<p>The physical button on the controller box cycles through the same scenes in order, so you can switch looks without a phone.</p>",
+
+    s_save_h: "Saving a scene",
+    s_save_b:
+      "<p>Set the room exactly how you want it, then <b>press and hold</b> a scene button (Band, Speech or Video). Confirm, and that scene will remember your settings.</p>" +
+      "<p>Saved scenes remain available after a reboot — they are stored on the controller itself.</p>",
+
+    s_home_h: "Quick access",
+    s_home_b:
+      "<p>Add the controller to your home screen so it opens instantly.</p>" +
+      "<div class='tip'><b>iPhone:</b> Open lights.local in <b>Safari</b>, tap the Share button &#x238B;, then <b>Add to Home Screen</b>.</div>" +
+      "<div class='tip' style='margin-top:8px'><b>Android:</b> Open in <b>Chrome</b>, tap the three-dot menu &#8942;, then <b>Add to Home Screen</b>.</div>",
+
+    s_contact_h: "Support &amp; rental",
+    c_support: "Technical support",
+    c_rental: "Rental &amp; access",
+    n_support: "Balázs Nyul",
+    n_rental: "Zsolt Rapai",
+
+    s_health_h: "System health",
+    s_health_b:
+      "<p>Real-time statistics and the event log.</p>" +
+      "<div style='display:flex;gap:10px;margin-top:8px'>" +
+      "<a class='link-btn' href='/health' style='flex:1;text-align:center'>Health status &rarr;</a>" +
+      "<a class='link-btn' href='/logs' style='flex:1;text-align:center'>Event log &rarr;</a>" +
+      "</div>",
+
+    s_restore_h: "Restore to defaults",
+    s_restore_b:
+      "<p>This clears all saved scenes and custom colors and returns the controller to its factory settings. Your Wi-Fi settings are kept, so the controller stays accessible.</p>" +
+      "<p>The controller will reboot. This cannot be undone.</p>",
+
+    restore_btn: "Restore to defaults",
+    cancel_btn: "Cancel",
+
+    f_system: "Szegletház Lighting System",
+    f_owner: "Operated by Golgota Kistarcsa",
+    f_jesus: "✝ Jesus is King",
+
+    confirm: "All saved scenes and custom colors will be lost. The controller will reboot. This cannot be undone.",
+
+    working_big: "Restoring…",
+    working_small: "Clearing saved settings and rebooting the controller.",
+
+    done_big: "✓ Restored",
+    done_small: "The controller is rebooting. Reconnect to lights.local in a few seconds.",
+
+    error_big: "Couldn't restore",
+    error_small: "Please check the connection to the controller and try again."
+  },
+
+  hu: {
+    back: "Vezérlő",
+    title: "A színpadi fények használata",
+    subtitle: "Rövid útmutató a vezérlőhöz.",
+    s_led_h: "LED jelzőfények a vezérlőn",
+    s_led_b:
+      "<ul style='list-style:none;padding:0;margin:0'>" +
+      "<li style='padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.06)'><b style='color:#4f8fff'>Kék pulzál</b> — Wi-Fi kapcsolódás folyamatban.</li>" +
+      "<li style='padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.06)'><b style='color:#4f8fff'>Kék</b>, zöld ki — online, az app nincs megnyitva.</li>" +
+      "<li style='padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.06)'><b style='color:#4f8fff'>Kék</b> + <b style='color:#22cc66'>zöld</b> — valaki éppen az appot használja.</li>" +
+      "<li style='padding:6px 0'><b style='color:#4f8fff'>Kék villog</b> — beállítási mód, csatlakozz a <b>LightController</b> Wi-Fi-hez.</li>" +
+      "</ul>",
+    s_fixtures_h: "A három lámpakártya",
+    s_fixtures_b:
+      "<ul>" +
+      "<li><b>Első Fények</b> — a fő fehér derítőfény. Fényerő és színhőmérséklet állítható.</li>" +
+      "<li><b>Falvilágítás</b> — a fentről lefele világytó színes bar (rúd) lámpák.</li>" +
+      "<li><b>Színes Spotlámpák</b> — a színes spotlámpák, külön fehér, borostyán és UV csatornával.</li>" +
+      "</ul>" +
+      "<p>Mindegyik kártyán van <b>be/ki kapcsoló</b> és <b>fényerő</b> csúszka. Kikapcsolva a sötétben is ki tudod választani a színt és a fényerőt, hogy utána egy kattintásra egyből a kívánt érték jelenjen meg.</p>",
+    s_colors_h: "Színek és a színválasztó",
+    s_colors_b:
+      "<p>A Falvilágítás és a Színes Spotlámpák kártyán koppints egy <b>színmintára</b>. Az alatta lévő FX gombok animált effekteket indítanak.</p>" +
+      "<p>A jobb oldali <b>szivárvány minta</b> az egyéni színed. <b>Tartsd nyomva</b> a színkör megnyitásához, állítsd be az árnyalatot, majd nyomd meg a <b>Szín megtartása</b> gombot a mentéshez.</p>",
+    s_scenes_h: "Jelenetek",
+    s_scenes_b:
+      "<p>Az alsó négy gomb a <b>jelenetek</b> — kész fénybeállítások a teremhez. Koppints rá a behíváshoz: <b>Zenekar</b>, <b>Előadás</b>, <b>Videó</b> vagy <b>Minden ki</b>.</p>" +
+      "<p>A vezérlődobozon lévő fizikai gomb sorban végiglépteti ugyanezeket a jeleneteket, így telefon nélkül is válthatsz.</p>",
+    s_save_h: "Jelenet mentése",
+    s_save_b:
+      "<p>Állítsd be a termet pontosan úgy, ahogy szeretnéd, majd <b>tartsd nyomva</b> egy jelenet gombot (Zenekar, Előadás vagy Videó). Hagyd jóvá, és a jelenet mostantól megjegyzi a beállításaidat.</p>" +
+      "<p>A mentett jelenetek újraindítás után is megmaradnak — magán a vezérlőn tárolódnak.</p>",
+    s_home_h: "Gyors elérés",
+    s_home_b:
+      "<p>Add a vezérlőt a főképernyőhöz, hogy azonnal, teljes képernyőn nyíljon meg.</p>" +
+      "<div class='tip'><b>iPhone:</b> Nyisd meg a lights.local oldalt <b>Safariban</b>, koppints a Megosztás gombra &#x238B;, majd válaszd a <b>Főképernyőre adás</b> lehetőséget.</div>" +
+      "<div class='tip' style='margin-top:8px'><b>Android:</b> Nyisd meg <b>Chrome-ban</b>, koppints a hárompontos menüre &#8942;, majd <b>Hozzáadás a főképernyőhöz</b>.</div>",
+    s_contact_h: "Segítség és bérlés",
+    c_support: "Technikai segítség",
+    c_rental: "Bérlés és hozzáférés",
+    n_support: "Nyul Balázs",
+    n_rental: "Rapai Zsolt",
+
+    s_health_h: "Rendszer állapota",
+    s_health_b:
+      "<p>Valós idejű adatok és eseménynapló.</p>" +
+      "<div style='display:flex;gap:10px;margin-top:8px'>" +
+      "<a class='link-btn' href='/health' style='flex:1;text-align:center'>Rendszerállapot &rarr;</a>" +
+      "<a class='link-btn' href='/logs' style='flex:1;text-align:center'>Eseménynapló &rarr;</a>" +
+      "</div>",
+    s_restore_h: "Visszaállítás alaphelyzetbe",
+    s_restore_b:
+      "<p>Ez törli az összes mentett jelenetet és egyéni színt, és visszaállítja a vezérlő gyári beállításait. A Wi-Fi beállítások megmaradnak, így a vezérlő elérhető marad.</p>" +
+      "<p>A vezérlő újraindul. Ez nem visszavonható.</p>",
+    restore_btn: "Visszaállítás alaphelyzetbe",
+    cancel_btn: "Mégse",
+    f_system: "Szegletházi fénytechnika rendszer",
+    f_owner: "Üzemelteti: Golgota Kistarcsa",
+    f_jesus: "✝ Jézus a Király",
+    confirm: "Minden mentett jelenet és egyéni szín elvész. A vezérlő újraindul. Ez nem visszavonható.",
+    working_big: "Visszaállítás…",
+    working_small: "Mentett beállítások törlése és a vezérlő újraindítása.",
+    done_big: "✓ Visszaállítva",
+    done_small: "A vezérlő újraindul. Csatlakozz újra a lights.local címhez pár másodperc múlva.",
+    error_big: "Nem sikerült",
+    error_small: "Ellenőrizd a kapcsolatot a vezérlővel, és próbáld újra."
+  }
+};
+
+var lang = (navigator.language || "en").toLowerCase().indexOf("hu") === 0 ? "hu" : "en";
+
+function applyLang() {
+  var d = T[lang];
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i]").forEach(function(el) {
+    var k = el.getAttribute("data-i");
+    if (d[k] !== undefined) el.innerHTML = d[k];
+  });
+  document.getElementById("lang-en").classList.toggle("active", lang === "en");
+  document.getElementById("lang-hu").classList.toggle("active", lang === "hu");
+}
+function setLang(l) { lang = l; applyLang(); }
+
+// ── Overlay helpers ───────────────────────────────────────────────────────────
+function showPanel(id) {
+  ["ov-confirm","ov-progress"].forEach(function(p) {
+    document.getElementById(p).classList.toggle("show", p === id);
+  });
+  document.getElementById("overlay").classList.add("show");
+}
+function hideOverlay() { document.getElementById("overlay").classList.remove("show"); }
+function overlayBgClick(e) { if (e.target.id === "overlay") hideOverlay(); }
+
+// ── Restore flow ──────────────────────────────────────────────────────────────
+function restore() {
+  var d = T[lang];
+  document.getElementById("ov-ctitle").textContent   = d.s_restore_h;
+  document.getElementById("ov-cmsg").textContent     = d.confirm;
+  document.getElementById("ov-cancel-btn").textContent = d.cancel_btn;
+  document.getElementById("ov-ok-btn").textContent   = d.restore_btn;
+  showPanel("ov-confirm");
+}
+
+function doRestore() {
+  var d = T[lang];
+  document.getElementById("ov-spin").style.display = "block";
+  document.getElementById("ov-big").textContent   = d.working_big;
+  document.getElementById("ov-small").textContent = d.working_small;
+  showPanel("ov-progress");
+  fetch("/restore", { method: "POST" })
+    .then(function(r) { return r.text(); })
+    .then(function() {
+      document.getElementById("ov-spin").style.display = "none";
+      document.getElementById("ov-big").textContent   = d.done_big;
+      document.getElementById("ov-small").textContent = d.done_small;
+      setTimeout(function() { window.location.href = "/"; }, 3000);
+    })
+    .catch(function() {
+      document.getElementById("ov-spin").style.display = "none";
+      document.getElementById("ov-big").textContent   = d.error_big;
+      document.getElementById("ov-small").textContent = d.error_small;
+      setTimeout(hideOverlay, 2600);
+    });
+}
+
+applyLang();
+
+document.addEventListener('click', function(e) {
+  var a = e.target;
+  while (a && a.tagName !== 'A') a = a.parentElement;
+  if (!a) return;
+  var href = a.getAttribute('href');
+  if (!href || href.indexOf('tel:') === 0) return;
+  e.preventDefault();
+  location.href = href;
+}, true);
+</script>
+</body>
+</html>
